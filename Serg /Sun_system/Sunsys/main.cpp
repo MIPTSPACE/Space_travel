@@ -8,6 +8,9 @@ using namespace std;
 
 class Sunsystem_body{
 private:
+//data
+    static const double G= 6671919999e-20;
+//functions
     int stod(const char *s, double *v)
     {
         enum signs {NEG = -1, NONE = 0, POS = 1};
@@ -126,11 +129,14 @@ private:
 
         return i;
     }
-void changenumberofplanet(){
+
+    void changenumberofplanet(){
         for(int i=0;i<plmas.size();i++)
             plmas[i].number=i;
     }
+
 public:
+//data
     int countofplanets=0;
     struct planet{
         int number;
@@ -141,10 +147,9 @@ public:
         double speedx;
         double speedy;
     };
-
-vector <planet> plmas;
-
-void addplanet(string myname,double myposx,double myposy,double mymass,double myspeedx,double myspeedy){
+    vector <planet> plmas;
+//functions
+    void addplanet(string myname,double myposx,double myposy,double mymass,double myspeedx,double myspeedy){
     //data to our struct
     planet n;
     n.name=myname;
@@ -162,13 +167,15 @@ void addplanet(string myname,double myposx,double myposy,double mymass,double my
         ++countofplanets;
         plmas.insert(plmas.end(),n);
         }
-}//заполнить информацию о планете
-int findplanetbyname(string myname){//-1 not exist
+    }//заполнить информацию о планете
+
+    int findplanetbyname(string myname){//-1 not exist
     for(int i=0;i<plmas.size();i++)
         if (plmas[i].name==myname) return i;
     return -1;
-}//возвращает номер планеты -1 если она не существует
-short deleteplanet(int number){ //-1 не получилось удалить 0 --ok
+    }//возвращает номер планеты -1 если она не существует
+
+    short deleteplanet(int number){ //-1 не получилось удалить 0 --ok
     if (number<0 ||number>=plmas.size())  return -1;
     else{
         plmas.erase(plmas.begin()+number);
@@ -176,9 +183,9 @@ short deleteplanet(int number){ //-1 не получилось удалить 0 
         return 0;
     }
 
-}//удаляет планету с номером
+    }//удаляет планету с номером
 
-short deleteplanet(string name){//-1 не получилось удалить 0---ok
+    short deleteplanet(string name){//-1 не получилось удалить 0---ok
      int i=findplanetbyname(name);
 
      if (i=-1) return -1;
@@ -187,26 +194,26 @@ short deleteplanet(string name){//-1 не получилось удалить 0-
          changenumberofplanet();
          return 0;
      }
-}//удаляеьт планету по названию
+    }//удаляеьт планету по названию
 
-short changeplanetdata(int numplanet,string myname){//-1 не получилось удалить 0---ok
+    short changeplanetdata(int numplanet,string myname){//-1 не получилось удалить 0---ok
     if (numplanet<0||numplanet>=plmas.size()) return -1;
     else{
         plmas[numplanet].name=myname;
         return 0;
     }
-}//изменяет имя планеты по ее номеру
+    }//изменяет имя планеты по ее номеру
 
-short changeplanetdata(string lastname, string myname){
+    short changeplanetdata(string lastname, string myname){
     int i=findplanetbyname(lastname);
     if (i==-1) return -1;
     else{
         plmas[i].name=myname;
         return 0;
     }
-}//изменяет имя планеты по старому имени
+    }//изменяет имя планеты по старому имени
 
-short changeplanetdata(int numplanet,int what,double val){//-1 не получилось изменить 0---ok
+    short changeplanetdata(int numplanet,int what,double val){//-1 не получилось изменить 0---ok
     if (numplanet<0||numplanet>=plmas.size()) return -1;
     else{
         switch (what){
@@ -235,9 +242,9 @@ short changeplanetdata(int numplanet,int what,double val){//-1 не получи
         return 0;
     }
 
-}//изменяет значения характеристики планеты по ее номеру
+    }//изменяет значения характеристики планеты по ее номеру
 
-short changeplanetdata(string numplanet,int what,double val){//-1 не получилось изменить 0---ok
+    short changeplanetdata(string numplanet,int what,double val){//-1 не получилось изменить 0---ok
     int i=findplanetbyname(numplanet);
     if (i==-1) return -1;
     else {
@@ -268,9 +275,9 @@ short changeplanetdata(string numplanet,int what,double val){//-1 не полу�
 
     }
 
-}//изменяет  значения характеристики планеты по ее названию
+    }//изменяет  значения характеристики планеты по ее названию
 
-short planet_from_file(string path){//-1 файл не найден 0--ok
+    short planet_from_file(string path){//-1 файл не найден 0--ok
     ifstream f;
     string s;
     planet myplanet;
@@ -304,12 +311,26 @@ short planet_from_file(string path){//-1 файл не найден 0--ok
 
 }
 
+    double findforse1by2x(int whom, int who){// кого  кто возращает силу, которая действует на "кого"  по оси х
+       double chisl=G*plmas[whom].mass*plmas[who].mass*(plmas[whom].posx-plmas[who].posx);
+       double znam=pow((pow((plmas[whom].posx-plmas[who].posx),2)+pow((plmas[whom].posy-plmas[who].posy),2)),(3/2));
+        return -(chisl)/(znam);
+}
+
+    double findforse1by2y(int whom, int who){// кого  кто возращает силу, которая действует на "кого"  по оси y
+        double chisl=G*plmas[whom].mass*plmas[who].mass*(plmas[whom].posy-plmas[who].posy);
+        double znam=pow((pow((plmas[whom].posx-plmas[who].posx),2)+pow((plmas[whom].posy-plmas[who].posy),2)),(3/2));
+         return -(chisl)/(znam);
+}
 };
 
 int main()
 {
     Sunsystem_body A;
-    A.planet_from_file("data.txt");
+    A.addplanet("Mars",0,0,1,0,0);
+    A.addplanet("Earth",6378000,0,5976e21,0,0);
+    cout<<A.findforse1by2x(0,1)<<endl;
+    cout<<A.findforse1by2x(1,0)<<endl;
     cout<<"!!!!"<<A.plmas.size()<<"!!!!!!!!!!!!!!";
 
     return 0;
