@@ -3,7 +3,7 @@
 #include <vector>
 #include <fstream>
 #include <math.h>
-
+//doxygen
 using namespace std;
 
 class Sunsystem_body{
@@ -11,6 +11,66 @@ private:
 //data
     static const double G= 6671919999e-20;
 //functions
+
+    void changenumberofplanet(){
+        for(unsigned int i=0;i<plmas.size();i++)
+            plmas[i].number=i;
+    }
+
+public:
+    Sunsystem_body(){
+       countofplanets=0;
+    }
+//data
+unsigned int countofplanets;
+    struct planet{
+        int number;
+        string name;
+        double posx;
+        double posy;
+        double mass;
+        double speedx;
+        double speedy;
+    };
+    vector <planet> plmas;
+//functions
+    void addplanet(string myname,double myposx,double myposy,double mymass,double myspeedx,double myspeedy){
+    //data to our struct
+    planet n;
+    n.name=myname;
+    n.mass=mymass;
+    n.posx=myposx;
+    n.posy=myposy;
+    n.speedx=myspeedx;
+    n.speedy=myspeedy;
+    bool isExist=false;
+    for (unsigned int i=0;i<plmas.size();i++){
+        if (plmas[i].name==myname) isExist=true;
+    }
+    if (!isExist) {
+        n.number=countofplanets;
+        ++countofplanets;
+        plmas.insert(plmas.end(),n);
+        }
+    }//заполнить информацию о планете
+
+    int findplanetbyname(string myname){//-1 not exist
+    for( unsigned int i=0;i<plmas.size();i++)
+        if (plmas[i].name==myname) return i;
+    return -1;
+    }//возвращает номер планеты -1 если она не существует
+
+    short deleteplanet(unsigned int number){ //-1 не получилось удалить 0 --ok
+    if (number>=plmas.size())  return -1;
+    else{
+        plmas.erase(plmas.begin()+number);
+        changenumberofplanet();
+        return 0;
+    }
+
+    }//удаляет планету с номером
+
+
     int stod(const char *s, double *v)
     {
         enum signs {NEG = -1, NONE = 0, POS = 1};
@@ -130,74 +190,19 @@ private:
         return i;
     }
 
-    void changenumberofplanet(){
-        for(int i=0;i<plmas.size();i++)
-            plmas[i].number=i;
-    }
-
-public:
-//data
-    int countofplanets=0;
-    struct planet{
-        int number;
-        string name;
-        double posx;
-        double posy;
-        double mass;
-        double speedx;
-        double speedy;
-    };
-    vector <planet> plmas;
-//functions
-    void addplanet(string myname,double myposx,double myposy,double mymass,double myspeedx,double myspeedy){
-    //data to our struct
-    planet n;
-    n.name=myname;
-    n.mass=mymass;
-    n.posx=myposx;
-    n.posy=myposy;
-    n.speedx=myspeedx;
-    n.speedy=myspeedy;
-    bool isexist=false;
-    for (int i=0;i<plmas.size();i++){
-        if (plmas[i].name==myname) isexist=true;
-    }
-    if (!isexist) {
-        n.number=countofplanets;
-        ++countofplanets;
-        plmas.insert(plmas.end(),n);
-        }
-    }//заполнить информацию о планете
-
-    int findplanetbyname(string myname){//-1 not exist
-    for(int i=0;i<plmas.size();i++)
-        if (plmas[i].name==myname) return i;
-    return -1;
-    }//возвращает номер планеты -1 если она не существует
-
-    short deleteplanet(int number){ //-1 не получилось удалить 0 --ok
-    if (number<0 ||number>=plmas.size())  return -1;
-    else{
-        plmas.erase(plmas.begin()+number);
-        changenumberofplanet();
-        return 0;
-    }
-
-    }//удаляет планету с номером
-
     short deleteplanet(string name){//-1 не получилось удалить 0---ok
      int i=findplanetbyname(name);
 
-     if (i=-1) return -1;
+     if (i==-1) return -1;
      else{
          plmas.erase(plmas.begin()+i);
          changenumberofplanet();
          return 0;
      }
-    }//удаляеьт планету по названию
+    }//удаляeт планету по названию
 
-    short changeplanetdata(int numplanet,string myname){//-1 не получилось удалить 0---ok
-    if (numplanet<0||numplanet>=plmas.size()) return -1;
+    short changeplanetdata(unsigned int numplanet,string myname){//-1 не получилось удалить 0---ok
+    if (numplanet>=plmas.size()) return -1;
     else{
         plmas[numplanet].name=myname;
         return 0;
@@ -213,8 +218,8 @@ public:
     }
     }//изменяет имя планеты по старому имени
 
-    short changeplanetdata(int numplanet,int what,double val){//-1 не получилось изменить 0---ok
-    if (numplanet<0||numplanet>=plmas.size()) return -1;
+    short changeplanetdata(unsigned int numplanet,int what,double val){//-1 не получилось изменить 0---ok
+    if (numplanet>=plmas.size()) return -1;
     else{
         switch (what){
         case 1:     {
@@ -238,7 +243,7 @@ public:
                         break;
         }
         default:     return -1;
-        }
+        }//enum
         return 0;
     }
 
@@ -311,27 +316,44 @@ public:
 
 }
 
-    double findforse1by2x(int whom, int who){// кого  кто возращает силу, которая действует на "кого"  по оси х
+    double findforse1by2x(unsigned int whom,unsigned  int who){// кого  кто возращает силу, которая действует на "кого"  по оси х
        double chisl=G*plmas[whom].mass*plmas[who].mass*(plmas[whom].posx-plmas[who].posx);
-       double znam=pow((pow((plmas[whom].posx-plmas[who].posx),2)+pow((plmas[whom].posy-plmas[who].posy),2)),(3/2));
+       double znam=pow((pow((plmas[whom].posx-plmas[who].posx),2)+pow((plmas[whom].posy-plmas[who].posy),2)),(3.0/2.0));
         return -(chisl)/(znam);
 }
 
-    double findforse1by2y(int whom, int who){// кого  кто возращает силу, которая действует на "кого"  по оси y
+    double findforse1by2y(unsigned int whom,unsigned int who){// кого  кто возращает силу, которая действует на "кого"  по оси y
         double chisl=G*plmas[whom].mass*plmas[who].mass*(plmas[whom].posy-plmas[who].posy);
-        double znam=pow((pow((plmas[whom].posx-plmas[who].posx),2)+pow((plmas[whom].posy-plmas[who].posy),2)),(3/2));
+        double znam=pow((pow((plmas[whom].posx-plmas[who].posx),2)+pow((plmas[whom].posy-plmas[who].posy),2)),(3.0/2.0));
          return -(chisl)/(znam);
 }
+    double findFinalForseX(unsigned int who){
+        double rez=0;
+        for(unsigned int i=0;i<plmas.size();i++)
+            if(who!=i) rez+=findforse1by2x(who,i);
+        return rez;
+    }
+    double findFinalForseY(unsigned int who){
+        double rez=0;
+        for(unsigned int i=0;i<plmas.size();i++)
+            if(who!=i) rez+=findforse1by2y(who,i);
+        return rez;
+    }
+
 };
 
-int main()
+int main(int argc, char *argv[])
 {
     Sunsystem_body A;
-    A.addplanet("Mars",0,0,1,0,0);
+   A.addplanet("Mars",0,0,1,0,0);
     A.addplanet("Earth",6378000,0,5976e21,0,0);
+
+
     cout<<A.findforse1by2x(0,1)<<endl;
     cout<<A.findforse1by2x(1,0)<<endl;
-    cout<<"!!!!"<<A.plmas.size()<<"!!!!!!!!!!!!!!";
+    cout<<A.findFinalForseX(0);
+    //cout<<"!!!!"<<A.plmas.size()<<"!!!!!!!!!!!!!!";
+    //cout<<"sss"<<endl;
 
     return 0;
 }
