@@ -14,14 +14,23 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QTextEdit" name="mytext">
+   <widget class="QLineEdit" name="lineEdit">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>430</y>
-      <width>421</width>
-      <height>21</height>
+      <x>280</x>
+      <y>440</y>
+      <width>661</width>
+      <height>33</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>

@@ -17,6 +17,11 @@ public:
 
 private:
     Ui::MainWindow *ui;
+private slots:
+
+    void on_lineEdit_returnPressed();
+    void line_Edit_downPressed();
+    void line_Edit_upPressed();
 };
 
 #endif // MAINWINDOW_H

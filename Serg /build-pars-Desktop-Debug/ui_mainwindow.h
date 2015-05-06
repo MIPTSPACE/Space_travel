@@ -14,10 +14,10 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
-#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
 
@@ -27,7 +27,7 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
-    QTextEdit *mytext;
+    QLineEdit *lineEdit;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -39,9 +39,14 @@ public:
         MainWindow->resize(953, 527);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        mytext = new QTextEdit(centralWidget);
-        mytext->setObjectName(QStringLiteral("mytext"));
-        mytext->setGeometry(QRect(520, 430, 421, 21));
+        lineEdit = new QLineEdit(centralWidget);
+        lineEdit->setObjectName(QStringLiteral("lineEdit"));
+        lineEdit->setGeometry(QRect(280, 440, 661, 33));
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(lineEdit->sizePolicy().hasHeightForWidth());
+        lineEdit->setSizePolicy(sizePolicy);
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -62,6 +67,7 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
+        lineEdit->setText(QString());
     } // retranslateUi
 
 };

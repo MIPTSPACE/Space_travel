@@ -33,7 +33,11 @@ unsigned int countofplanets;
         double speedy;
     };
     vector <planet> plmas;
+    vector <planet> plmas1;
 //functions
+    void makecopyofplanets(){
+        plmas1=plmas;
+    }
     void addplanet(string myname,double myposx,double myposy,double mymass,double myspeedx,double myspeedy){
     //data to our struct
     planet n;
@@ -54,7 +58,7 @@ unsigned int countofplanets;
         }
     }//заполнить информацию о планете
 
-    int findplanetbyname(string myname){//-1 not exist
+     int findplanetbyname(string myname){//-1 not exist
     for( unsigned int i=0;i<plmas.size();i++)
         if (plmas[i].name==myname) return i;
     return -1;
@@ -316,6 +320,14 @@ unsigned int countofplanets;
 
 }
 
+  //data for parser
+    struct speedans{
+        double speed;
+        bool errorrr;
+    };
+
+   //functions for parser
+
     double findforse1by2x(unsigned int whom,unsigned  int who){// кого  кто возращает силу, которая действует на "кого"  по оси х
        double chisl=G*plmas[whom].mass*plmas[who].mass*(plmas[whom].posx-plmas[who].posx);
        double znam=pow((pow((plmas[whom].posx-plmas[who].posx),2)+pow((plmas[whom].posy-plmas[who].posy),2)),(3.0/2.0));
@@ -340,6 +352,72 @@ unsigned int countofplanets;
         return rez;
     }
 
+    struct speedans showspeedx(unsigned int numplanet){
+        struct speedans ans;
+        if (numplanet>plmas.size()){
+            ans.errorrr=true;
+            return ans;
+         }
+        else{
+            ans.speed=plmas[numplanet].speedx;
+            ans.errorrr=false;
+            return ans;
+        }
+
+    }
+    struct speedans showspeedy(unsigned int numplanet){
+        struct speedans ans;
+        if (numplanet>plmas.size()){
+            ans.errorrr=true;
+            return ans;
+         }
+        else{
+            ans.speed=plmas[numplanet].speedy;
+            ans.errorrr=false;
+            return ans;
+        }
+    }
+    struct speedans showspeedx(string planetname){
+         int i=findplanetbyname(planetname);
+          struct speedans ans;
+         if (-1==i){
+             ans.errorrr=true;
+             return ans;
+         } else {
+             return showspeedx((unsigned int )i);
+         }
+
+    }
+    struct speedans showspeedy(string planetname){
+        int i=findplanetbyname(planetname);
+         struct speedans ans;
+        if (-1==i){
+            ans.errorrr=true;
+            return ans;
+        } else {
+            return showspeedy((unsigned int)(i));
+        }
+
+    }
+
+ //data for runge kutta
+ struct KuttaAns{
+    double posX;
+    double posY;
+    double speeDX;
+    double speeDY;
+    };
+void OnestepKutta(KuttaAns * data,double h,unsigned int who){
+    double v1x,v2x,v3x,v4x,v1y,v2y,v3y,v4y;//koef for speed
+    double p1x,p2x,p3x,p4x,p1y,p2y,p3y,p4y;//koef for position
+    //SPEED
+   // v1x=findFinalForseX(who);
+    //v1y=findFinalForseY(who);
+
+
+}
+
+
 };
 
 int main(int argc, char *argv[])
@@ -351,8 +429,11 @@ int main(int argc, char *argv[])
 
     cout<<A.findforse1by2x(0,1)<<endl;
     cout<<A.findforse1by2x(1,0)<<endl;
-    cout<<A.findFinalForseX(0);
-    //cout<<"!!!!"<<A.plmas.size()<<"!!!!!!!!!!!!!!";
+    cout<<endl;
+    A.makecopyofplanets();
+    cout<<A.plmas1[0].speedx<<endl;
+    cout<<A.plmas1[1].posx<<endl;
+
     //cout<<"sss"<<endl;
 
     return 0;
