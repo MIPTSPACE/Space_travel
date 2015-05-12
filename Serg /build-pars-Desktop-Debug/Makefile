@@ -914,7 +914,8 @@ mainwindow.o: ../pars/mainwindow.cpp ../pars/mainwindow.h \
 		/usr/include/qt5/QtWidgets/QToolBar \
 		/usr/include/qt5/QtWidgets/qtoolbar.h \
 		/usr/include/qt5/QtWidgets/QWidget \
-		/usr/include/qt5/QtCore/QString
+		/usr/include/qt5/QtCore/QString \
+		../pars/myparser.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../pars/mainwindow.cpp
 
 myparser.o: ../pars/myparser.cpp /usr/include/qt5/QtCore/QString \
@@ -980,7 +981,20 @@ myparser.o: ../pars/myparser.cpp /usr/include/qt5/QtCore/QString \
 		/usr/include/qt5/QtCore/qobject_impl.h \
 		/usr/include/qt5/QtCore/qpair.h \
 		/usr/include/qt5/QtCore/qregexp.h \
-		/usr/include/qt5/QtCore/qstringmatcher.h
+		/usr/include/qt5/QtCore/qstringmatcher.h \
+		/usr/include/qt5/QtCore/QRegExp \
+		/usr/include/qt5/QtCore/QMap \
+		/usr/include/qt5/QtCore/qmap.h \
+		/usr/include/qt5/QtCore/qdebug.h \
+		/usr/include/qt5/QtCore/qhash.h \
+		/usr/include/qt5/QtCore/qtextstream.h \
+		/usr/include/qt5/QtCore/qlocale.h \
+		/usr/include/qt5/QtCore/qvariant.h \
+		/usr/include/qt5/QtCore/qshareddata.h \
+		/usr/include/qt5/QtCore/qvector.h \
+		/usr/include/qt5/QtCore/qpoint.h \
+		/usr/include/qt5/QtCore/qset.h \
+		/usr/include/qt5/QtCore/qcontiguouscache.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o myparser.o ../pars/myparser.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 

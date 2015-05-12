@@ -22,6 +22,7 @@ private slots:
     void on_lineEdit_returnPressed();
     void line_Edit_downPressed();
     void line_Edit_upPressed();
+    void on_lineEdit_selectionChanged();
 };
 
 #endif // MAINWINDOW_H

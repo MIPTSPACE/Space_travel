@@ -494,17 +494,34 @@ void DayofstepsKutta(long days){
 int main(int argc, char *argv[])
 {
     Sunsystem_body A;
-
-    A.addplanet("1",10000000,10000000,5.9742e35,0,0);
-    A.addplanet("2",16700000,10000000,1,24476.854738925,0);
+    A.addplanet("Earth",0,0,5.974e24,0,0);
+        A.addplanet("Moon",0,384.4e6,1,1000,0);
     A.makecopyofplanets();
-    cout<<A.plmas[1].posx<<endl;
+    cout<<"Moon"<<endl;
+    cout<<"posx="<<A.plmas[1].posx<<endl;
+    cout<<"posy="<<A.plmas[1].posy<<endl;
+    cout<<"speedx="<<A.plmas[1].speedx<<endl;
+    cout<<"speedy="<<A.plmas[1].speedy<<endl;
+    cout<<"Earth"<<endl;
+    cout<<"posx="<<A.plmas[0].posx<<endl;
+    cout<<"posy="<<A.plmas[0].posy<<endl;
+    cout<<"speedx="<<A.plmas[0].speedx<<endl;
+    cout<<"speedy="<<A.plmas[0].speedy<<endl;
     cout<<endl<<endl;
-    for(int i=0;i<10   ;i++){
+   while(fabs(A.plmas[1].posx-384.4e6)>100){
         A.OnestepKuttaforall(1);
-        cout<<sqrt((A.showspeedx(1).speed)*(A.showspeedx(1).speed)+(A.showspeedy(1).speed)*(A.showspeedy(1).speed))<<endl;
     }
-    cout<<A.plmas[1].posx<<endl;
+    cout<<"Moon"<<endl;
+    cout<<"posx="<<A.plmas[1].posx<<endl;
+    cout<<"posy="<<A.plmas[1].posy<<endl;
+    cout<<"speedx="<<A.plmas[1].speedx<<endl;
+    cout<<"speedy="<<A.plmas[1].speedy<<endl;
+    cout<<"Earth"<<endl;
+    cout<<"posx="<<A.plmas[0].posx<<endl;
+    cout<<"posy="<<A.plmas[0].posy<<endl;
+    cout<<"speedx="<<A.plmas[0].speedx<<endl;
+    cout<<"speedy="<<A.plmas[0].speedy<<endl;
+    cout<<endl<<endl;
  //A.makecopyofplanets();
    // cout<<A.findforse1by2x(0,1)<<endl;
     //cout<<A.findforse1by2x(1,0)<<endl;
