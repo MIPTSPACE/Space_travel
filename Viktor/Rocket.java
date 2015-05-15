@@ -1,39 +1,22 @@
 package com.company;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONValue;
-
 /**
  * Created by user on 23.04.2015.
  */
 
 public class Rocket {
-
-    public double I; //удельный импульс двигателя
-    public double k;    //коэффициент, показывающий, какое количество топлива приходится на единицу массы конструкции,
-                        //зависит также от усреднённой плотности топлива - выбор вида топлива
-    public double m0; //масса полезного груза
-    public int n1 = 1; // количество ступеней для вывода на круговую орбиту
-
-    public double mStart;
-    public double mOnCircularOrbit;
-    public double mOnTransitionalOrbit;
-    public double mOnEllipticalOrbit;
-    public double mLandingModule;
-
-    public double mStageCorrection;
-    public double mStageToTransitionalOrbit;
-    public double mStageToCircularOrbit;
-
+    private String name;
+    private String function;
+    private String origin; //Country of origin
     private int cost; //Cost per launch, $
+    private int height; //Height, metres
+   // private int stages; //Stages number
     private int massEmpty; //in kg
     private int massFuel;
+    private int thrust; // kN
+    private int specificImpulse; // seconds,  F(thrust) = SI * g * dm/dt;
 
-    public void read(String s) {
-        Object obj= JSONValue.parse(s);
-        JSONArray array=(JSONArray)obj;
-        I = Double.parseDouble(array.get(0).toString());
-        k = Double.parseDouble(array.get(1).toString());
-        m0 = Double.parseDouble(array.get(2).toString());
+    public void launch() {
+        System.out.println("3...2...1...launch");
     }
 }
