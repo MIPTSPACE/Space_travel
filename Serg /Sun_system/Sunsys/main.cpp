@@ -3,6 +3,7 @@
 #include <vector>
 #include <fstream>
 #include <math.h>
+#include <time.h>
 #define DAYLENGTH   86400 //seconds per day
 #define HOURLENGTH  3600//seconds per hour
 //doxygen
@@ -37,6 +38,7 @@ unsigned int countofplanets;
     };
     vector <planet> plmas;
     vector <planet> plmas1;
+    vector <planet> sunsys1;
 //functions
     void makecopyofplanets(){
         plmas1=plmas;
@@ -336,7 +338,6 @@ unsigned int countofplanets;
        double znam=pow((pow((plmas1[whom].posx-plmas1[who].posx),2)+pow((plmas1[whom].posy-plmas1[who].posy),2)),(3.0/2.0));
         return -(chisl)/(znam);
 }
-
     double findforse1by2y(unsigned int whom,unsigned int who){// кого  кто возращает силу, которая действует на "кого"  по оси y
         double chisl=G*plmas1[whom].mass*plmas1[who].mass*(plmas1[whom].posy-plmas1[who].posy);
         double znam=pow((pow((plmas1[whom].posx-plmas1[who].posx),2)+pow((plmas1[whom].posy-plmas1[who].posy),2)),(3.0/2.0));
@@ -402,7 +403,7 @@ unsigned int countofplanets;
         }
 
     }
-
+//cheker metka
  //data for runge kutta
  struct KuttaAns{
     double posX;
@@ -419,33 +420,6 @@ void OnestepKutta(double h,unsigned int who){
     vx=plmas1[who].speedx;
     vy=plmas1[who].speedy;
     copyofbegdata=plmas1;
-   /* v1x=findFinalForseX(who)/plmas1[who].mass;
-    v1y=findFinalForseY(who)/plmas1[who].mass;
-    plmas1[who].posx+=v1x*h/2.0;
-    plmas1[who].posy+=v1y*h/2.0;
-    v2x=findFinalForseX(who)/plmas1[who].mass;
-    v2y=findFinalForseY(who)/plmas1[who].mass;
-    plmas1=copyofbegdata;
-    plmas1[who].posx+=v2x*h/2.0;
-    plmas1[who].posy+=v2y*h/2.0;
-    v3x=findFinalForseX(who)/plmas1[who].mass;
-    v3y=findFinalForseY(who)/plmas1[who].mass;
-    plmas1=copyofbegdata;
-    plmas1[who].posx+=v3x*h;
-    plmas1[who].posy+=v3y*h;
-    v4x=findFinalForseX(who)/plmas1[who].mass;
-    v4y=findFinalForseY(who)/plmas1[who].mass;
-    p1x=vx;
-    p1y=vy;
-    p2x=vx+v1x*h/2.0;
-    p2y=vy+v1y*h/2.0;
-    p3x=vx+v2x*h/2.0;
-    p3y=vy+v2y*h/2.0;
-    p4x=vx+v3x*h;
-    p4y=vx+v3y*h;
-*///first probe
-
-
     v1x=h*findFinalForseX(who)/plmas1[who].mass;
     v1y=h*findFinalForseY(who)/plmas1[who].mass;
     p1x=h*vx;
@@ -489,49 +463,73 @@ void DayofstepsKutta(long days){
     }
 
 }
+//functions for movements from one system to another
+
+bool insusys_exist(){
+    if (sunsys1.size()>0) return true;
+    else return false;
+}
+void creatsunsys1(){
+    planet p;
+    for (unsigned i=0;i<plmas.size();i++)
+        sunsys1.insert(sunsys1.end(),p);
+}
+ void  insusys(){
+       if (!insusys_exist()) creatsunsys1();
+      for(int i=1;i<plmas.size();i++){
+          sunsys1[i].name=plmas[i].name;
+          sunsys1[i].mass=plmas[i].mass;
+          sunsys1[i].posx-=plmas[0].posx;
+          sunsys1[i].posy-=plmas[0].posy;
+          sunsys1[i].speedx-=plmas[0].speedx;
+          sunsys1[i].speedy-=plmas[0].speedy;
+
+      }
+ }
+//[0] Sun system
+
+//functions for rockets
+
 };
 
 int main(int argc, char *argv[])
 {
     Sunsystem_body A;
-    A.addplanet("Earth",0,0,5.974e24,0,0);
-        A.addplanet("Moon",0,384.4e6,1,1000,0);
-    A.makecopyofplanets();
-    cout<<"Moon"<<endl;
-    cout<<"posx="<<A.plmas[1].posx<<endl;
-    cout<<"posy="<<A.plmas[1].posy<<endl;
-    cout<<"speedx="<<A.plmas[1].speedx<<endl;
-    cout<<"speedy="<<A.plmas[1].speedy<<endl;
-    cout<<"Earth"<<endl;
-    cout<<"posx="<<A.plmas[0].posx<<endl;
-    cout<<"posy="<<A.plmas[0].posy<<endl;
-    cout<<"speedx="<<A.plmas[0].speedx<<endl;
-    cout<<"speedy="<<A.plmas[0].speedy<<endl;
-    cout<<endl<<endl;
-   while(fabs(A.plmas[1].posx-384.4e6)>100){
-        A.OnestepKuttaforall(1);
-    }
-    cout<<"Moon"<<endl;
-    cout<<"posx="<<A.plmas[1].posx<<endl;
-    cout<<"posy="<<A.plmas[1].posy<<endl;
-    cout<<"speedx="<<A.plmas[1].speedx<<endl;
-    cout<<"speedy="<<A.plmas[1].speedy<<endl;
-    cout<<"Earth"<<endl;
-    cout<<"posx="<<A.plmas[0].posx<<endl;
-    cout<<"posy="<<A.plmas[0].posy<<endl;
-    cout<<"speedx="<<A.plmas[0].speedx<<endl;
-    cout<<"speedy="<<A.plmas[0].speedy<<endl;
-    cout<<endl<<endl;
- //A.makecopyofplanets();
-   // cout<<A.findforse1by2x(0,1)<<endl;
-    //cout<<A.findforse1by2x(1,0)<<endl;
-    //cout<<endl;
-    //A.makecopyofplanets();
-    //cout<<A.plmas1[0].speedx<<endl;
-    //cout<<A.plmas1[1].posx<<endl;
+       A.addplanet("Earth",0,0,5.974e24,0,0);
+       A.addplanet("Moon",0,384.4e6,7.3477e22,1000,0);
+       A.makecopyofplanets();
+       cout<<"Moon"<<endl;
+       cout<<"posx="<<A.plmas[1].posx<<endl;
+       cout<<"posy="<<A.plmas[1].posy<<endl;
+       cout<<"speedx="<<A.plmas[1].speedx<<endl;
+       cout<<"speedy="<<A.plmas[1].speedy<<endl;
+       cout<<"Earth"<<endl;
+       cout<<"posx="<<A.plmas[0].posx<<endl;
+       cout<<"posy="<<A.plmas[0].posy<<endl;
+       cout<<"speedx="<<A.plmas[0].speedx<<endl;
+       cout<<"speedy="<<A.plmas[0].speedy<<endl;
+       cout<<endl<<endl;
+       cout<<(sqrt((A.plmas[0].posx-A.plmas[1].posx)*(A.plmas[0].posx-A.plmas[1].posx)+(A.plmas[0].posy-A.plmas[1].posy)*(A.plmas[0].posy-A.plmas[1].posy)))<<endl;
+       for(int i=0; i<24*273*6*30;i++){
+           A.OnestepKuttaforall(20);
+       }
+       cout<<(sqrt((A.plmas[0].posx-A.plmas[1].posx)*(A.plmas[0].posx-A.plmas[1].posx)+(A.plmas[0].posy-A.plmas[1].posy)*(A.plmas[0].posy-A.plmas[1].posy)))<<endl;
+       cout<<"Moon"<<endl;
+A.insusys();
+       cout<<"posx="<<A.plmas[1].posx<<endl;
+       cout<<"posy="<<A.plmas[1].posy<<endl;
+       cout<<"speedx="<<A.plmas[1].speedx<<endl;
+       cout<<"speedy="<<A.plmas[1].speedy<<endl;
+       cout<<"Earth"<<endl;
+       cout<<"posx="<<A.plmas[0].posx<<endl;
+       cout<<"posy="<<A.plmas[0].posy<<endl;
+       cout<<"speedx="<<A.plmas[0].speedx<<endl;
+       cout<<"speedy="<<A.plmas[0].speedy<<endl;
+       cout<<endl<<endl;
 
-
-    //cout<<"sss"<<endl;
+  // while(fabs(A.plmas[1].posx-384.4e6)>100){
+    //    A.OnestepKuttaforall(1);
+   // }
 
     return 0;
 }

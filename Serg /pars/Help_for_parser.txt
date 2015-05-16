@@ -6,7 +6,7 @@ download planets from <Name of file>
 open information about <Name of planet>
 show planet <Name>||<Number> position
 show planet <Name>||<Number> speed
-show forse  <posx>,<posy>
+show forse  <posx> <posy>
 show date
 
 
@@ -42,10 +42,3 @@ plot previus fuel grath
 plot r(t) for <Name>||<Number>
 plot r(t) beetween <Name>||<Number> and <Name>||<Number>
 plot fuel
-
-
-
-
-
-
-

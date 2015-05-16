@@ -16,7 +16,7 @@ void on_move(QString s){
     global="i'm in on_move="+s;
 }
 void on_stop(QString s){
-    global="i'm in on_stop="+s;
+    global=""+s;
 }
 void on_stepw(QString s){
     global="i'm in on_step>>="+s;
@@ -52,7 +52,7 @@ void on_sshow(QString s){
           (*(void(*)(QString))mapshow[mylist[0]])(s);
        }
       else global=mylist[0];
-}
+}//+++
 void on_ssave(QString s){
     global="i'm in on_ssave="+s;
 }
@@ -78,32 +78,84 @@ void creatQmapfirstword(){
  mapfirstword["save"]=(void*)on_ssave;
  mapfirstword["download"]=(void*)on_ddownload;
  mapfirstword["open"]=(void*)on_oopen;
-}
+}//+++
 //end of Qmapfirstword
 
 //[1]Qmapshow
 void on_show_date(QString s){
     global="here is your date  ";
 }
+
+void on_show_forse(QString s){
+    double posx,posy;
+    s=s.simplified();
+    QStringList mylist=splitintowords(s," ");
+    if (mylist.size()!=2)  global="Format of command must be:show forse  <posx> <posy>";
+    else{
+        bool ok;
+        double d;
+        d=mylist.at(0).toDouble(&ok);
+        if (ok) posx=d;
+        else goto endofforse;
+        d=mylist.at(1).toDouble(&ok);
+        if (ok) posy=d;
+        else goto endofforse;
+
+        return;
+    }
+    endofforse: global="<posx> <pos y>  are incorrect";
+
+}
+
 void on_show_planet(QString s){
      if(s.indexOf("position")>0){
          s.remove(s.indexOf("position"),s.length());
          s=s.simplified();
-         QStringList mylist=splitintowords(s," ");
-         //if s.contains()
+         QRegExp name_ex("^[a-zA-Z0-9]+$");
+         QRegExp number_ex("^\\d\\d?$");
+
+         if(s.contains(number_ex)>0){
+             global="Here is a number="+s;
+             //find planet by number and call DATAPLANETFORM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         }
+         else if(s.contains(name_ex)>0){
+              global=s+"PosX=0  PosY=0";
+                  //find planet by name and call DATAPLANETFORM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         }
+         else global="Format of command should be show planet <Name>||<Number> position";
+
 
      }
-     else if (s.indexOf("speed")>0) global="here is a speed";
-            else global="error";
+     else if (s.indexOf("speed")>0){
+         s.remove(s.indexOf("speed"),s.length());
+         s=s.simplified();
+         QRegExp name_ex("^[a-zA-Z0-9]+$");
+         QRegExp number_ex("^\\d\\d?$");
+
+         if(s.contains(number_ex)>0){
+             global="Here is a number="+s;
+             //find planet by number and call DATAPLANETFORM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         }
+         else if(s.contains(name_ex)>0){
+              global="here is a name"+s;
+                  //find planet by name and call DATAPLANETFORM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         }
+         else global="Format of command should be show planet <Name>||<Number> speed";
+         }
+          else global="error";
 }
+//on show planet just add calls of functions from sunsystem
 
 void creatQmapshow(){
    mapshow["planet"]=(void*)on_show_planet;
    mapshow["date"]=(void*)on_show_date;
-   //mapshow["forse"]=(void*)on_show_forse;
+   mapshow["forse"]=(void*)on_show_forse;
 }
 //end of mapshow
 
+
+
+//part for working with data
 #define FIRSTYEAR  1900
 #define LASTYEAR   2200
 
@@ -123,6 +175,7 @@ struct mydate{
  *
  */
 
+
 bool isALeapYear( int year )
 {   if (year==2000) return true;
     if ( (year % 4 == 0 && year % 100 != 0) || ( year % 400 == 0))
@@ -130,14 +183,17 @@ bool isALeapYear( int year )
     else
         return false;
 }
+
 bool Checkermonth(int i){
     if(i<0||i>12) return false;
     return true;
 }
+
 bool Checkeryear(int i){
     if(i<FIRSTYEAR||i>LASTYEAR) return false;
     return true;
 }
+
 bool Checkerday(int d,int m,int y){
     switch (m)
     {
@@ -199,6 +255,7 @@ bool Checkerday(int d,int m,int y){
     }
    return false;
 }
+
 struct mydate  dateformat(QString s){
         QRegExp exp1("[0-9]{1,2}\\/[0-9]{1,2}\\/[0-9]{1,10}");
         QRegExp exp2("[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,10}");
@@ -253,6 +310,7 @@ struct mydate  dateformat(QString s){
 
         }
 }
+
 QString Parsecommand(QString str){
     if ( str=="") return "Error";
     else{
@@ -270,10 +328,12 @@ QString Parsecommand(QString str){
     }
 }
 
+
 QString myanswer(QString s){
     mydate m=dateformat(s);
     if (m.error==false) return QString::number(m.S);
     return m.problem;
 }
+
 
 
