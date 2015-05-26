@@ -10,31 +10,35 @@ QStringList splitintowords(QString s,QString s1){
 
 QMap <QString,void*> mapfirstword;
 QMap <QString,void*> mapshow;
+QMap <QString,void*> mapchange;
+QMap   <QString,void*> mapchangeplanets;
+
 //[0]Qmapfirstword
 
 void on_move(QString s){
     global="i'm in on_move="+s;
 }
-void on_stop(QString s){
-    global=""+s;
+void on_stop(){
+    global="stop!!!";
+    //calling function stop
 }
-void on_stepw(QString s){
-    global="i'm in on_step>>="+s;
+void on_stepw(){
+    global="i'm in on_step>>=";
+    //calling step>>function
 }
-void on_stepl(QString s){
-    global="i'm in on_step<<="+s;
+void on_stepl(){
+    global="i'm in on_step<<=";
+    //calling step<<< function
 }
-void on_start(QString s){
-    global="i'm in on_start="+s;
+void on_start(){
+    global="i'm in on_start=";
+    //calling start!!!
 }
-void on_exxxit(QString s){
+void on_exxxit(){
     exit(1);
 }//+++
 void on_pplot(QString s){
     global="i'm in on_plot="+s;
-}
-void on_change(QString s){
-    global="i'm in on_change="+s;
 }
 void on_ddelete(QString s){
     global="i'm in on_delete="+s;
@@ -44,15 +48,27 @@ void on_addplanet(QString s){
 }
 void on_sshow(QString s){
      QString s1=" ";
-
      while(s.at(0)==s1.at(0)) s.remove(0,1);
+     if(s.length()<=1){ global="error";}
+     else{
       QStringList mylist=splitintowords(s," ");
      if(mapshow.contains(mylist[0])){
           s.remove(0,mylist[0].length());
           (*(void(*)(QString))mapshow[mylist[0]])(s);
        }
       else global=mylist[0];
+     }
 }//+++
+void on_change(QString s){
+    QString s1=" ";
+    while(s.at(0)==s1.at(0)) s.remove(0,1);
+     QStringList mylist=splitintowords(s," ");
+    if(mapchange.contains(mylist[0])){
+         s.remove(0,mylist[0].length());
+         (*(void(*)(QString))mapchange[mylist[0]])(s);
+      }
+     else global="there is not such command";
+}
 void on_ssave(QString s){
     global="i'm in on_ssave="+s;
 }
@@ -83,9 +99,8 @@ void creatQmapfirstword(){
 
 //[1]Qmapshow
 void on_show_date(QString s){
-    global="here is your date  ";
+    global=QString::number(1997)+"."+QString::number(12)+"."+QString::number(25);
 }
-
 void on_show_forse(QString s){
     double posx,posy;
     s=s.simplified();
@@ -100,13 +115,13 @@ void on_show_forse(QString s){
         d=mylist.at(1).toDouble(&ok);
         if (ok) posy=d;
         else goto endofforse;
-
+        global="all is ok!";
+ //here should be a part of calling function forse posx, posy
         return;
     }
     endofforse: global="<posx> <pos y>  are incorrect";
 
 }
-
 void on_show_planet(QString s){
      if(s.indexOf("position")>0){
          s.remove(s.indexOf("position"),s.length());
@@ -145,13 +160,100 @@ void on_show_planet(QString s){
           else global="error";
 }
 //on show planet just add calls of functions from sunsystem
-
 void creatQmapshow(){
    mapshow["planet"]=(void*)on_show_planet;
    mapshow["date"]=(void*)on_show_date;
    mapshow["forse"]=(void*)on_show_forse;
 }
 //end of mapshow
+//last cheker: working well
+
+//[2]Qmapchange
+void on_change_pto(QString s){
+    s=s.simplified();
+    QStringList mylist=splitintowords(s," ");
+    //proverka na planety
+    QString s1=mylist[0];
+    QRegExp name_ex("^[a-zA-Z0-9]+$");
+    QRegExp number_ex("^\\d\\d?$");
+
+    if(s1.contains(number_ex)>0){
+        global="Here is a number="+s1;
+        //find planet by number and call DATAPLANETFORM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    }
+    else if(s1.contains(name_ex)>0){
+         global="here is a name"+s1;
+             //find planet by name and call DATAPLANETFORM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    }
+    else global="Format of command should be change planet <Name>|| to <Name>";
+      //here should be a cod with changing name!
+}
+void on_change_pposx(QString s){
+    s=s.simplified();
+    QStringList mylist=splitintowords(s," ");
+    //proverka na planety
+    QString s1=mylist[0];
+    QRegExp name_ex("^[a-zA-Z0-9]+$");
+    QRegExp number_ex("^\\d\\d?$");
+
+    if(s1.contains(number_ex)>0){
+        global="Here is a number="+s1;
+        //find planet by number and call DATAPLANETFORM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    }
+    else if(s1.contains(name_ex)>0){
+         global="here is a name"+s1;
+             //find planet by name and call DATAPLANETFORM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    }
+    else global="Format of command should be change planet <Name>||<Number>  posx <posx>";
+      //here should be a cod with changing posx!
+
+}
+void on_change_pposy(QString s){
+    s=s.simplified();
+    QStringList mylist=splitintowords(s," ");
+    //proverka na planety
+    QString s1=mylist[0];
+    QRegExp name_ex("^[a-zA-Z0-9]+$");
+    QRegExp number_ex("^\\d\\d?$");
+
+    if(s1.contains(number_ex)>0){
+        global="Here is a number="+s1;
+        //find planet by number and call DATAPLANETFORM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    }
+    else if(s1.contains(name_ex)>0){
+         global="here is a name"+s1;
+             //find planet by name and call DATAPLANETFORM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    }
+    else global="Format of command should be change planet <Name>||<Number>  posy <posy>";
+      //here should be a cod with changing posy!
+
+}
+
+void on_change_planet(QString s){
+    s=s.simplified();
+    QStringList mylist=splitintowords(s," ");
+    if(mylist.size()!=3){
+        global="error in change command";
+        return;
+    }
+    else{
+        if(mapchangeplanets.contains(mylist[1])){
+             (*(void(*)(QString))mapchangeplanets[mylist[1]])(s);
+          }
+         else global="error in change planet command";
+
+    }
+}
+void creatQmapchange(){
+    mapchange["planet"]=(void*)on_change_planet;
+}
+void creatQmapchangeplanets(){
+    mapchangeplanets["to"]=(void*)on_change_pto;
+    mapchangeplanets["posx"]=(void*)on_change_pposx;
+    mapchangeplanets["posy"]=(void*)on_change_pposy;
+    mapchangeplanets["posy"]=(void*)on_change_pposy;
+}
+
 
 
 
@@ -318,6 +420,8 @@ QString Parsecommand(QString str){
         QStringList mylist=splitintowords(str," ");
         creatQmapfirstword();
         creatQmapshow();
+        creatQmapchange();
+        creatQmapchangeplanets();
         if(mapfirstword.contains(mylist[0])){
             str.remove(0,mylist[0].length());
             (*(void(*)(QString))mapfirstword[mylist[0]])(str);

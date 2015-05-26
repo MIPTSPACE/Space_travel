@@ -4,7 +4,6 @@
 #include <myparser.h>
 
 
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)

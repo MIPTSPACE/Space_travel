@@ -1,0 +1,31 @@
+  Sunsystem_body A;
+    A.addplanet("Sun",0,0,1.98892e30,0,0);
+    A.addplanet("Mars1",1.295574004e11,0.748e11,5.9742e24,0,0);
+    A.addplanet("Mars2",-1.295574004e11,0.748e11,5.9742e24,0,0);
+    A.addplanet("Jup",-1.295574004e11,-0.748e11,5.9742e24,0,0);
+    A.addplanet("Vasia",1.295574004e11,-0.748e11,5.9742e24,0,0);
+    A.makecopyofplanets();
+    for(int i=0;i<A.plmas.size();i++){
+        cout<<A.plmas[i].name<<endl;
+        cout<<"mass="<<A.plmas[i].mass<<endl;
+        cout<<"posx="<<A.plmas[i].posx<<endl;
+        cout<<"posy="<<A.plmas[i].posy<<endl;
+        cout<<"speedx="<<A.plmas[i].speedx<<endl;
+        cout<<"speedy="<<A.plmas[i].speedy<<endl;
+        cout<<endl<<endl;
+    }
+    cout<<"Here is a forse XY"<<endl;
+          cout<<"SUN  EARTH"<<endl;
+          cout<<A.findforse1by2x(0,1)<<endl;
+          cout<<A.findforse1by2y(0,1)<<endl;
+          cout<<"SUN NEPTUN"<<endl;
+          cout<<A.findforse1by2x(0,2)<<endl;
+          cout<<A.findforse1by2y(0,2)<<endl;
+          cout<<"SUN MARS"<<endl;
+          cout<<A.findforse1by2x(0,3)<<endl;
+          cout<<A.findforse1by2y(0,3)<<endl;
+          cout<<"SUN JUP"<<endl;
+          cout<<A.findforse1by2x(0,4)<<endl;
+          cout<<A.findforse1by2y(0,4)<<endl;
+    cout<<A.findFinalForseX(0)<<endl;
+    cout<<A.findFinalForseY(0)<<endl;

@@ -4,32 +4,31 @@ List of commands for cmd line:
 save planets position <Name of file>
 download planets from <Name of file>
 open information about <Name of planet>
-show planet <Name>||<Number> position
-show planet <Name>||<Number> speed
-show forse  <posx> <posy>
-show date
+++show planet <Name>||<Number> position
++++show planet <Name>||<Number> speed
++++show forse  <posx> <posy>
++++show date
 
 
 [1]
 //change data
-addplanet name <Name>
-change planet <Name>|| to <Name>
-change planet <Name>||<Number>  posx <posx>
-change planet <Name>||<Number>  posy <posy>
++++change planet <Name>|| to <Name>
++++change planet <Name>||<Number>  posx <posx>
++++change planet <Name>||<Number>  posy <posy>
 change planet <Name>||<Number>  speedx <speedx>
 change planet <Name>||<Number>  speedy <speedy>
-delete planet <Name>||<Number>
+change planet <Name>||<Number>  mass <speedy>
 
 [2]
 //working with program
 move to  <data>
-stop
-step>>
-step<<
++++stop
++++step>>
++++step<<
 move faster
 move slower
-start
-exit
++++start
++++exit
 
 [3]
 //rockets
